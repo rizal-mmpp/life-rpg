@@ -1,82 +1,145 @@
+import './Stats.css';
+
 export default function Stats() {
   return (
-    <section className="mb-12 bg-white rounded-xl shadow-md p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-gray-800">Your Character Stats</h2>
-        <span className="text-sm text-gray-500">Level 5 Adventurer</span>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {/* Health */}
-        <div className="bg-red-50 rounded-lg p-4 flex items-center">
-          <div className="mr-4">
-            <svg className="w-16 h-16" viewBox="0 0 36 36">
-              <path d="M18 36C8.06 36 0 27.94 0 18S8.06 0 18 0s18 8.06 18 18-8.06 18-18 18z" fill="#DD2E44"/>
-              <path d="M18 30c-6.63 0-12-5.37-12-12S11.37 6 18 6s12 5.37 12 12-5.37 12-12 12zm0-21c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" fill="#EA596E"/>
-              <path d="M18 24c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#FFCC4D"/>
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Character Stats</h2>
+      <div className="grid grid-cols-4 gap-8">
+        <div className="flex flex-col items-center">
+          <div className="relative">
+            <svg className="progress-ring" width="120" height="120">
+              <circle
+                stroke="#ef4444"
+                strokeWidth="8"
+                fill="transparent"
+                r="52"
+                cx="60"
+                cy="60"
+              />
+              <circle
+                className="progress-ring__circle"
+                stroke="#ef4444"
+                strokeWidth="8"
+                fill="transparent"
+                r="52"
+                cx="60"
+                cy="60"
+                style={{
+                  strokeDasharray: `${2 * Math.PI * 52}`,
+                  strokeDashoffset: `${2 * Math.PI * 52 * (1 - 95/100)}`,
+                }}
+              />
             </svg>
-          </div>
-          <div>
-            <h3 className="font-semibold text-gray-800">Health</h3>
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-              <div className="bg-red-500 h-2.5 rounded-full" style={{width: '85%'}}></div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <svg className="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              <span className="mt-1 text-sm font-medium">95/100</span>
             </div>
-            <p className="text-sm text-gray-600 mt-1">85/100</p>
           </div>
+          <span className="mt-3 text-lg font-bold">Health</span>
         </div>
-
-        {/* Energy */}
-        <div className="bg-blue-50 rounded-lg p-4 flex items-center">
-          <div className="mr-4">
-            <svg className="w-16 h-16" viewBox="0 0 36 36">
-              <path d="M18 36C8.06 36 0 27.94 0 18S8.06 0 18 0s18 8.06 18 18-8.06 18-18 18z" fill="#3B88C3"/>
-              <path d="M18 30c-6.63 0-12-5.37-12-12S11.37 6 18 6s12 5.37 12 12-5.37 12-12 12zm0-21c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" fill="#88C9F9"/>
-              <path d="M18 24c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#FFCC4D"/>
+        <div className="flex flex-col items-center">
+          <div className="relative">
+            <svg className="progress-ring" width="120" height="120">
+              <circle
+                stroke="#3b82f6"
+                strokeWidth="8"
+                fill="transparent"
+                r="52"
+                cx="60"
+                cy="60"
+              />
+              <circle
+                className="progress-ring__circle"
+                stroke="#3b82f6"
+                strokeWidth="8"
+                fill="transparent"
+                r="52"
+                cx="60"
+                cy="60"
+                style={{
+                  strokeDasharray: `${2 * Math.PI * 52}`,
+                  strokeDashoffset: `${2 * Math.PI * 52 * (1 - 65/100)}`,
+                }}
+              />
             </svg>
-          </div>
-          <div>
-            <h3 className="font-semibold text-gray-800">Energy</h3>
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-              <div className="bg-blue-500 h-2.5 rounded-full" style={{width: '65%'}}></div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <svg className="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M13 3v18h-2v-18h2zm7.293 4.293-1.414 1.414 2.414 2.414-2.414 2.414 1.414 1.414 3.121-3.121c.391-.391.391-1.024 0-1.414l-3.121-3.121zm-14.586 0-3.121 3.121c-.391.391-.391 1.024 0 1.414l3.121 3.121 1.414-1.414-2.414-2.414 2.414-2.414-1.414-1.414z"/>
+              </svg>
+              <span className="mt-1 text-sm font-medium">65/100</span>
             </div>
-            <p className="text-sm text-gray-600 mt-1">65/100</p>
           </div>
+          <span className="mt-3 text-lg font-bold">Energy</span>
         </div>
-
-        {/* Intelligence */}
-        <div className="bg-purple-50 rounded-lg p-4 flex items-center">
-          <div className="mr-4">
-            <svg className="w-16 h-16" viewBox="0 0 36 36">
-              <path d="M18 36C8.06 36 0 27.94 0 18S8.06 0 18 0s18 8.06 18 18-8.06 18-18 18z" fill="#9266CC"/>
-              <path d="M18 30c-6.63 0-12-5.37-12-12S11.37 6 18 6s12 5.37 12 12-5.37 12-12 12zm0-21c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" fill="#AA8DD8"/>
-              <path d="M18 24c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#FFCC4D"/>
+        <div className="flex flex-col items-center">
+          <div className="relative">
+            <svg className="progress-ring" width="120" height="120">
+              <circle
+                stroke="#a855f7"
+                strokeWidth="8"
+                fill="transparent"
+                r="52"
+                cx="60"
+                cy="60"
+              />
+              <circle
+                className="progress-ring__circle"
+                stroke="#a855f7"
+                strokeWidth="8"
+                fill="transparent"
+                r="52"
+                cx="60"
+                cy="60"
+                style={{
+                  strokeDasharray: `${2 * Math.PI * 52}`,
+                  strokeDashoffset: `${2 * Math.PI * 52 * (1 - 78/100)}`,
+                }}
+              />
             </svg>
-          </div>
-          <div>
-            <h3 className="font-semibold text-gray-800">Intelligence</h3>
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-              <div className="bg-purple-500 h-2.5 rounded-full" style={{width: '78%'}}></div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <svg className="w-8 h-8 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+              </svg>
+              <span className="mt-1 text-sm font-medium">78/100</span>
             </div>
-            <p className="text-sm text-gray-600 mt-1">78/100</p>
           </div>
+          <span className="mt-3 text-lg font-bold">Intelligence</span>
         </div>
-
-        {/* Social */}
-        <div className="bg-green-50 rounded-lg p-4 flex items-center">
-          <div className="mr-4">
-            <svg className="w-16 h-16" viewBox="0 0 36 36">
-              <path d="M18 36C8.06 36 0 27.94 0 18S8.06 0 18 0s18 8.06 18 18-8.06 18-18 18z" fill="#77B255"/>
-              <path d="M18 30c-6.63 0-12-5.37-12-12S11.37 6 18 6s12 5.37 12 12-5.37 12-12 12zm0-21c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" fill="#A6D388"/>
-              <path d="M18 24c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#FFCC4D"/>
+        <div className="flex flex-col items-center">
+          <div className="relative">
+            <svg className="progress-ring" width="120" height="120">
+              <circle
+                stroke="#22c55e"
+                strokeWidth="8"
+                fill="transparent"
+                r="52"
+                cx="60"
+                cy="60"
+              />
+              <circle
+                className="progress-ring__circle"
+                stroke="#22c55e"
+                strokeWidth="8"
+                fill="transparent"
+                r="52"
+                cx="60"
+                cy="60"
+                style={{
+                  strokeDasharray: `${2 * Math.PI * 52}`,
+                  strokeDashoffset: `${2 * Math.PI * 52 * (1 - 72/100)}`,
+                }}
+              />
             </svg>
-          </div>
-          <div>
-            <h3 className="font-semibold text-gray-800">Social</h3>
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-              <div className="bg-green-500 h-2.5 rounded-full" style={{width: '72%'}}></div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <svg className="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              <span className="mt-1 text-sm font-medium">72/100</span>
             </div>
-            <p className="text-sm text-gray-600 mt-1">72/100</p>
           </div>
+          <span className="mt-3 text-lg font-bold">Social</span>
         </div>
       </div>
     </section>
