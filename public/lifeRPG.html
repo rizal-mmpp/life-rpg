@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life RPG - Gamify Your Life</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.5s;
+            transform-origin: 50% 50%;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .achievement-badge {
+            position: relative;
+        }
+        .achievement-badge:hover .achievement-tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-indigo-600 text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-gamepad text-3xl"></i>
+                        <h1 class="text-2xl font-bold">Life RPG</h1>
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <div class="flex items-center space-x-2 bg-indigo-700 px-4 py-2 rounded-full">
+                            <i class="fas fa-coins text-yellow-400"></i>
+                            <span id="points-counter" class="font-bold">1,250</span>
+                        </div>
+                        <div class="relative">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Avatar" class="w-10 h-10 rounded-full border-2 border-white">
+                            <div class="absolute -bottom-1 -right-1 bg-green-500 rounded-full w-4 h-4 border-2 border-white"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+            <!-- Character Stats -->
+            <section class="mb-12 bg-white rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Your Character Stats</h2>
+                    <span class="text-sm text-gray-500">Level 5 Adventurer</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <!-- Health -->
+                    <div class="bg-red-50 rounded-lg p-4 flex items-center">
+                        <div class="mr-4">
+                            <svg class="w-16 h-16" viewBox="0 0 36 36">
+                                <path d="M18 36C8.06 36 0 27.94 0 18S8.06 0 18 0s18 8.06 18 18-8.06 18-18 18z" fill="#DD2E44"/>
+                                <path d="M18 30c-6.63 0-12-5.37-12-12S11.37 6 18 6s12 5.37 12 12-5.37 12-12 12zm0-21c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" fill="#EA596E"/>
+                                <path d="M18 24c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#FFCC4D"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Health</h3>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">85/100</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Energy -->
+                    <div class="bg-blue-50 rounded-lg p-4 flex items-center">
+                        <div class="mr-4">
+                            <svg class="w-16 h-16" viewBox="0 0 36 36">
+                                <path d="M18 36C8.06 36 0 27.94 0 18S8.06 0 18 0s18 8.06 18 18-8.06 18-18 18z" fill="#3B88C3"/>
+                                <path d="M18 30c-6.63 0-12-5.37-12-12S11.37 6 18 6s12 5.37 12 12-5.37 12-12 12zm0-21c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" fill="#88C9F9"/>
+                                <path d="M18 24c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#FFCC4D"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Energy</h3>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                                <div class="bg-blue-500 h-2.5 rounded-full" style="width: 65%"></div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">65/100</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Intelligence -->
+                    <div class="bg-purple-50 rounded-lg p-4 flex items-center">
+                        <div class="mr-4">
+                            <svg class="w-16 h-16" viewBox="0 0 36 36">
+                                <path d="M18 36C8.06 36 0 27.94 0 18S8.06 0 18 0s18 8.06 18 18-8.06 18-18 18z" fill="#9266CC"/>
+                                <path d="M18 30c-6.63 0-12-5.37-12-12S11.37 6 18 6s12 5.37 12 12-5.37 12-12 12zm0-21c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" fill="#AA8DD8"/>
+                                <path d="M18 24c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#FFCC4D"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Intelligence</h3>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                                <div class="bg-purple-500 h-2.5 rounded-full" style="width: 78%"></div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">78/100</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Social -->
+                    <div class="bg-green-50 rounded-lg p-4 flex items-center">
+                        <div class="mr-4">
+                            <svg class="w-16 h-16" viewBox="0 0 36 36">
+                                <path d="M18 36C8.06 36 0 27.94 0 18S8.06 0 18 0s18 8.06 18 18-8.06 18-18 18z" fill="#77B255"/>
+                                <path d="M18 30c-6.63 0-12-5.37-12-12S11.37 6 18 6s12 5.37 12 12-5.37 12-12 12zm0-21c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z" fill="#A6D388"/>
+                                <path d="M18 24c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#FFCC4D"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-800">Social</h3>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                                <div class="bg-green-500 h-2.5 rounded-full" style="width: 72%"></div>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">72/100</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Sections -->
+            <section class="mb-12">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Life Categories</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Finances -->
+                    <div class="category-card bg-white rounded-xl shadow-md p-6 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Finances</h3>
+                                <p class="text-sm text-gray-500">Manage your gold</p>
+                            </div>
+                            <div class="bg-yellow-100 p-2 rounded-full">
+                                <i class="fas fa-coins text-yellow-500"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Current Balance</span>
+                                <span class="font-semibold">$4,250</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-400 h-2 rounded-full" style="width: 42%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>Monthly Goal: $10,000</span>
+                                <span>42%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <div class="bg-blue-50 p-2 rounded-lg text-center">
+                                <p class="text-xs text-gray-500">Income</p>
+                                <p class="font-semibold text-blue-600">$3,200</p>
+                            </div>
+                            <div class="bg-red-50 p-2 rounded-lg text-center">
+                                <p class="text-xs text-gray-500">Expenses</p>
+                                <p class="font-semibold text-red-600">$1,750</p>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-yellow-400 hover:bg-yellow-500 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                            View Details
+                        </button>
+                    </div>
+                    
+                    <!-- Tasks & Productivity -->
+                    <div class="category-card bg-white rounded-xl shadow-md p-6 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Tasks & Quests</h3>
+                                <p class="text-sm text-gray-500">Complete for XP</p>
+                            </div>
+                            <div class="bg-blue-100 p-2 rounded-full">
+                                <i class="fas fa-tasks text-blue-500"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Daily Quests</span>
+                                <span class="font-semibold">3/5 Completed</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-400 h-2 rounded-full" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="task1" class="rounded text-blue-500 mr-2" checked>
+                                <label for="task1" class="text-sm line-through text-gray-500">Morning workout</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="task2" class="rounded text-blue-500 mr-2" checked>
+                                <label for="task2" class="text-sm line-through text-gray-500">Read 30 minutes</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="task3" class="rounded text-blue-500 mr-2" checked>
+                                <label for="task3" class="text-sm">Work project (2h)</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="task4" class="rounded text-blue-500 mr-2">
+                                <label for="task4" class="text-sm">Call family member</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="task5" class="rounded text-blue-500 mr-2">
+                                <label for="task5" class="text-sm">Learn new skill</label>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-blue-400 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                            Add New Quest
+                        </button>
+                    </div>
+                    
+                    <!-- Relationships -->
+                    <div class="category-card bg-white rounded-xl shadow-md p-6 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Relationships</h3>
+                                <p class="text-sm text-gray-500">Your party members</p>
+                            </div>
+                            <div class="bg-pink-100 p-2 rounded-full">
+                                <i class="fas fa-users text-pink-500"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Social XP</span>
+                                <span class="font-semibold">720/1000</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-pink-400 h-2 rounded-full" style="width: 72%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <div class="text-center">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-1">
+                                    <i class="fas fa-user text-gray-500"></i>
+                                </div>
+                                <p class="text-xs">Family</p>
+                                <p class="text-xs font-semibold">85%</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-1">
+                                    <i class="fas fa-user-friends text-gray-500"></i>
+                                </div>
+                                <p class="text-xs">Friends</p>
+                                <p class="text-xs font-semibold">65%</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-1">
+                                    <i class="fas fa-briefcase text-gray-500"></i>
+                                </div>
+                                <p class="text-xs">Work</p>
+                                <p class="text-xs font-semibold">75%</p>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-pink-400 hover:bg-pink-500 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                            Connect Now
+                        </button>
+                    </div>
+                    
+                    <!-- Health & Fitness -->
+                    <div class="category-card bg-white rounded-xl shadow-md p-6 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Health & Fitness</h3>
+                                <p class="text-sm text-gray-500">Boost your stats</p>
+                            </div>
+                            <div class="bg-green-100 p-2 rounded-full">
+                                <i class="fas fa-heartbeat text-green-500"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <div class="text-center">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-1">
+                                    <i class="fas fa-fire text-orange-500"></i>
+                                </div>
+                                <p class="text-xs">Calories</p>
+                                <p class="text-xs font-semibold">1,850</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-1">
+                                    <i class="fas fa-walking text-blue-500"></i>
+                                </div>
+                                <p class="text-xs">Steps</p>
+                                <p class="text-xs font-semibold">7,250</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-1">
+                                    <i class="fas fa-moon text-purple-500"></i>
+                                </div>
+                                <p class="text-xs">Sleep</p>
+                                <p class="text-xs font-semibold">6.5h</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Workout Streak</span>
+                                <span class="font-semibold">7 days</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-400 h-2 rounded-full" style="width: 70%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                                <span>Goal: 30 days</span>
+                                <span>23%</span>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-green-400 hover:bg-green-500 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                            Log Activity
+                        </button>
+                    </div>
+                    
+                    <!-- Personal Growth -->
+                    <div class="category-card bg-white rounded-xl shadow-md p-6 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Personal Growth</h3>
+                                <p class="text-sm text-gray-500">Level up your skills</p>
+                            </div>
+                            <div class="bg-purple-100 p-2 rounded-full">
+                                <i class="fas fa-brain text-purple-500"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Learning Progress</span>
+                                <span class="font-semibold">3 skills</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-purple-400 h-2 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">Programming</span>
+                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-400 h-2 rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">Language</span>
+                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-400 h-2 rounded-full" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">Music</span>
+                                <div class="w-16 bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-400 h-2 rounded-full" style="width: 40%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-purple-400 hover:bg-purple-500 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                            Learn Something New
+                        </button>
+                    </div>
+                    
+                    <!-- Habits -->
+                    <div class="category-card bg-white rounded-xl shadow-md p-6 transition-all duration-300">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Habits</h3>
+                                <p class="text-sm text-gray-500">Daily rituals</p>
+                            </div>
+                            <div class="bg-orange-100 p-2 rounded-full">
+                                <i class="fas fa-history text-orange-500"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-2 mb-4">
+                            <div class="text-center">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-1">
+                                    <i class="fas fa-check text-green-500"></i>
+                                </div>
+                                <p class="text-xs">Meditation</p>
+                                <p class="text-xs font-semibold">21d</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-1">
+                                    <i class="fas fa-check text-green-500"></i>
+                                </div>
+                                <p class="text-xs">Reading</p>
+                                <p class="text-xs font-semibold">14d</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-red-100 flex items-center justify-center mb-1">
+                                    <i class="fas fa-times text-red-500"></i>
+                                </div>
+                                <p class="text-xs">Journaling</p>
+                                <p class="text-xs font-semibold">Broken</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Habit Score</span>
+                                <span class="font-semibold">78/100</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-orange-400 h-2 rounded-full" style="width: 78%"></div>
+                            </div>
+                        </div>
+                        
+                        <button class="w-full bg-orange-400 hover:bg-orange-500 text-white font-medium py-2 px-4 rounded-lg transition duration-200">
+                            Track Habit
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Achievements -->
+            <section class="mb-12 bg-white rounded-xl shadow-md p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Your Achievements</h2>
+                    <span class="text-sm text-gray-500">12/50 unlocked</span>
+                </div>
+                
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <!-- Achievement 1 -->
+                    <div class="achievement-badge text-center">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                            <i class="fas fa-coins text-yellow-500 text-2xl"></i>
+                        </div>
+                        <p class="text-xs font-semibold">First Gold</p>
+                        <div class="achievement-tooltip hidden absolute z-10 w-48 p-2 mt-2 text-sm text-white bg-gray-800 rounded-lg shadow-lg">
+                            Earned your first $100
+                        </div>
+                    </div>
+                    
+                    <!-- Achievement 2 -->
+                    <div class="achievement-badge text-center">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                            <i class="fas fa-fire text-blue-500 text-2xl"></i>
+                        </div>
+                        <p class="text-xs font-semibold">7-Day Streak</p>
+                        <div class="achievement-tooltip hidden absolute z-10 w-48 p-2 mt-2 text-sm text-white bg-gray-800 rounded-lg shadow-lg">
+                            Completed a 7-day workout streak
+                        </div>
+                    </div>
+                    
+                    <!-- Achievement 3 -->
+                    <div class="achievement-badge text-center">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-2">
+                            <i class="fas fa-book text-green-500 text-2xl"></i>
+                        </div>
+                        <p class="text-xs font-semibold">Bookworm</p>
+                        <div class="achievement-tooltip hidden absolute z-10 w-48 p-2 mt-2 text-sm text-white bg-gray-800 rounded-lg shadow-lg">
+                            Read 5 books
+                        </div>
+                    </div>
+                    
+                    <!-- Achievement 4 -->
+                    <div class="achievement-badge text-center">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-purple-100 flex items-center justify-center mb-2">
+                            <i class="fas fa-users text-purple-500 text-2xl"></i>
+                        </div>
+                        <p class="text-xs font-semibold">Socializer</p>
+                        <div class="achievement-tooltip hidden absolute z-10 w-48 p-2 mt-2 text-sm text-white bg-gray-800 rounded-lg shadow-lg">
+                            Connected with 10 people
+                        </div>
+                    </div>
+                    
+                    <!-- Achievement 5 -->
+                    <div class="achievement-badge text-center">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-red-100 flex items-center justify-center mb-2">
+                            <i class="fas fa-medal text-red-500 text-2xl"></i>
+                        </div>
+                        <p class="text-xs font-semibold">Level Up</p>
+                        <div class="achievement-tooltip hidden absolute z-10 w-48 p-2 mt-2 text-sm text-white bg-gray-800 rounded-lg shadow-lg">
+                            Reached Level 5
+                        </div>
+                    </div>
+                    
+                    <!-- Achievement 6 -->
+                    <div class="achievement-badge text-center">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-2">
+                            <i class="fas fa-lock text-gray-500 text-2xl"></i>
+                        </div>
+                        <p class="text-xs font-semibold text-gray-400">Secret</p>
+                        <div class="achievement-tooltip hidden absolute z-10 w-48 p-2 mt-2 text-sm text-white bg-gray-800 rounded-lg shadow-lg">
+                            Locked achievement
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="w-full mt-6 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-200">
+                    View All Achievements
+                </button>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="bg-white rounded-xl shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">Recent Activity</h2>
+                
+                <div class="space-y-4">
+                    <!-- Activity 1 -->
+                    <div class="flex items-start">
+                        <div class="bg-green-100 p-2 rounded-full mr-4">
+                            <i class="fas fa-check-circle text-green-500"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Completed "Morning Workout" quest</p>
+                            <p class="text-sm text-gray-500">+25 XP • 2 hours ago</p>
+                        </div>
+                        <div class="ml-auto text-yellow-500">
+                            <i class="fas fa-coins"></i> 10
+                        </div>
+                    </div>
+                    
+                    <!-- Activity 2 -->
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 p-2 rounded-full mr-4">
+                            <i class="fas fa-plus-circle text-blue-500"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Added new skill "Spanish"</p>
+                            <p class="text-sm text-gray-500">+10 XP • 5 hours ago</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity 3 -->
+                    <div class="flex items-start">
+                        <div class="bg-purple-100 p-2 rounded-full mr-4">
+                            <i class="fas fa-trophy text-purple-500"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Achievement unlocked: "Bookworm"</p>
+                            <p class="text-sm text-gray-500">+50 XP • Yesterday</p>
+                        </div>
+                        <div class="ml-auto text-yellow-500">
+                            <i class="fas fa-coins"></i> 25
+                        </div>
+                    </div>
+                    
+                    <!-- Activity 4 -->
+                    <div class="flex items-start">
+                        <div class="bg-red-100 p-2 rounded-full mr-4">
+                            <i class="fas fa-times-circle text-red-500"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Failed "No Social Media" challenge</p>
+                            <p class="text-sm text-gray-500">-15 XP • Yesterday</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity 5 -->
+                    <div class="flex items-start">
+                        <div class="bg-yellow-100 p-2 rounded-full mr-4">
+                            <i class="fas fa-coins text-yellow-500"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Received paycheck</p>
+                            <p class="text-sm text-gray-500">+100 XP • 2 days ago</p>
+                        </div>
+                        <div class="ml-auto text-yellow-500">
+                            <i class="fas fa-coins"></i> 50
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="w-full mt-6 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-200">
+                    View All Activity
+                </button>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-white shadow-lg md:hidden">
+            <div class="flex justify-around">
+                <a href="#" class="flex flex-col items-center py-3 px-4 text-indigo-600">
+                    <i class="fas fa-home text-xl"></i>
+                    <span class="text-xs mt-1">Home</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-3 px-4 text-gray-500">
+                    <i class="fas fa-tasks text-xl"></i>
+                    <span class="text-xs mt-1">Quests</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-3 px-4 text-gray-500">
+                    <i class="fas fa-chart-line text-xl"></i>
+                    <span class="text-xs mt-1">Stats</span>
+                </a>
+                <a href="#" class="flex flex-col items-center py-3 px-4 text-gray-500">
+                    <i class="fas fa-trophy text-xl"></i>
+                    <span class="text-xs mt-1">Achievements</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // Simple animation for the points counter
+        function animatePoints() {
+            const counter = document.getElementById('points-counter');
+            let points = 1250;
+            
+            setInterval(() => {
+                points += Math.floor(Math.random() * 5);
+                counter.textContent = points.toLocaleString();
+            }, 5000);
+        }
+        
+        // Check/uncheck tasks
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const label = this.nextElementSibling;
+                if (this.checked) {
+                    label.classList.add('line-through', 'text-gray-500');
+                    label.classList.remove('text-gray-800');
+                } else {
+                    label.classList.remove('line-through', 'text-gray-500');
+                    label.classList.add('text-gray-800');
+                }
+            });
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            animatePoints();
+        });
+    </script>
+</body>
+</html>
